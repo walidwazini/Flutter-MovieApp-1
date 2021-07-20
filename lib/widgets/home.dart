@@ -12,37 +12,85 @@ class MovieHomePage extends StatefulWidget {
 }
 
 class _MovieHomePageState extends State<MovieHomePage> {
-
   List<MovieList> movies = [];
   var searchEditingController = TextEditingController();
+  var imageHeader = 'assets/images/movies.jpg';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Movie App'),),
+      appBar: AppBar(
+        title: Text('Movie App'),
+      ),
       body: Column(
         children: [
           Row(
             children: [
-              Expanded(child:
-              TextField(
-                controller: searchEditingController,
-                decoration:
-                InputDecoration(hintText: 'Search for movies/series'),)),
-              TextButton(onPressed: (){
-                fetchMovieList(searchEditingController.text).then((value) => {
-                  setState(() {
-                    movies = value;
-                  }),
-                });
-              }, child: Text('Search')),
+              Expanded(
+                  child: Container(
+                padding: EdgeInsets.all(20.0),
+                color: Colors.teal,
+              )),
+              Expanded(child: Image.asset(imageHeader, width: 300,))
             ],
           ),
+
+          //  ---------  1st Search Bar     -------------------
+          // Row(
+          //   children: [
+          //     Expanded(
+          //         child: SizedBox(
+          //       width: 270,
+          //       child: TextField(
+          //         controller: searchEditingController,
+          //         decoration:
+          //             InputDecoration(hintText: 'Search for movies/series'),
+          //       ),
+          //     )),
+          //     TextButton(
+          //         onPressed: () {
+          //           fetchMovieList(searchEditingController.text)
+          //               .then((value) => {
+          //                     setState(() {
+          //                       movies = value;
+          //                     }),
+          //                   });
+          //         },
+          //         child: Text('Search')),
+          //   ],
+          // ),
+
+          // ------------------   2nd Search Bar
+          Row(
+            children: [
+              SizedBox(
+                width: 250,
+                child: TextField(
+                  controller: searchEditingController,
+                  decoration: InputDecoration(hintText: 'Search no.3'),
+                ),
+              ),
+              ElevatedButton.icon(
+                  onPressed: () {
+                    fetchMovieList(searchEditingController.text).then((value) => {
+                          setState(() {
+                            movies = value;
+                          }),
+                        });
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.indigo),
+                  icon: Icon(Icons.search),
+                  label: Text('Search')),
+            ],
+          ),
+
+
+          // ----------  Search  Result    -------------
           Expanded(
             child: ListView.builder(
-              // itemCount: 5,
+                // itemCount: 5,
                 itemCount: movies.length,
-                itemBuilder: (BuildContext context, int position){
+                itemBuilder: (BuildContext context, int position) {
                   return ListTile(
                     leading: Image.network(movies[position].posterUrl),
                     // title: Text(' This item is $position'),
@@ -50,10 +98,12 @@ class _MovieHomePageState extends State<MovieHomePage> {
                     // subtitle: Text(' This is subtitle $position'),
                     subtitle: Text(movies[position].year),
                     trailing: Icon(Icons.arrow_forward_ios_rounded),
-                    onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) =>
-                              DetailsPage(imdbId:movies[position].imdbId)));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailsPage(
+                                  imdbId: movies[position].imdbId)));
                     },
                   );
                 }),
@@ -62,9 +112,10 @@ class _MovieHomePageState extends State<MovieHomePage> {
       ),
     );
   }
+
   Future<List<MovieList>> fetchMovieList(searchTerm) async {
-    final response =
-    await http.get(Uri.parse('https://www.omdbapi.com/?s=$searchTerm&apikey=87d10179'));
+    final response = await http.get(
+        Uri.parse('https://www.omdbapi.com/?s=$searchTerm&apikey=87d10179'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
