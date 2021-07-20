@@ -26,12 +26,12 @@ class _MovieHomePageState extends State<MovieHomePage> {
         children: [
           Row(
             children: [
-              Expanded(
-                  child: Container(
-                padding: EdgeInsets.all(20.0),
-                color: Colors.teal,
-              )),
-              Expanded(child: Image.asset(imageHeader, width: 300,))
+              // Expanded(
+              //     child: Container(
+              //   padding: EdgeInsets.all(20.0),
+              //   color: Colors.teal,
+              // )),
+              Expanded(child: Image.asset(imageHeader, width: 300,fit: BoxFit.cover,))
             ],
           ),
 
