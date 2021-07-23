@@ -31,7 +31,10 @@ class _MovieHomePageState extends State<MovieHomePage> {
               //   padding: EdgeInsets.all(20.0),
               //   color: Colors.teal,
               // )),
-              Expanded(child: Image.asset(imageHeader, width: 300,fit: BoxFit.cover,))
+              Expanded(child: Image.asset(
+                imageHeader,
+                width: 300, height: 100,
+                fit: BoxFit.cover,))
             ],
           ),
 
@@ -62,6 +65,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
 
           // ------------------   2nd Search Bar
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 width: 250,
